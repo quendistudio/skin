@@ -1,0 +1,20 @@
+fields:
+    skin:
+        label: quendistudio.skin::lang.fields.skin.label
+        type: radio
+        default: enhanced
+        options:
+            enhanced: quendistudio.skin::lang.fields.skin.enhanced
+            modern: quendistudio.skin::lang.fields.skin.modern
+    theme:
+        label: quendistudio.skin::lang.fields.theme.label
+        type: radio
+        default: light
+        options:
+            light: quendistudio.skin::lang.fields.theme.light
+            dark: quendistudio.skin::lang.fields.theme.dark
+            cupcake: quendistudio.skin::lang.fields.theme.cupcake
+        trigger:
+            action: show
+            field: skin
+            condition: value[modern]

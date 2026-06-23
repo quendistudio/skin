@@ -1,0 +1,66 @@
+/**
+ * Backend theme overlay – daisyUI theme "light"
+ * Variables from @plugin "daisyui/theme" { name: "light"; }
+ * Pure CSS override; no HTML changes. Load after winter.css / app.min.css.
+ */
+
+ :root {
+  color-scheme: light;
+  /* Base (daisyUI) – --color-* aliases for the .btn system */
+  --color-base-100: oklch(25.33% 0.016 252.42);
+  --color-base-200: oklch(23.26% 0.014 253.1);
+  --color-base-300: oklch(21.15% 0.012 254.09);
+  --color-base-content: oklch(97.807% 0.029 256.847);
+  --color-primary: oklch(0.765 0.0819 183.6);
+  --color-primary-content: oklch(38% 0.063 188.416);
+  --color-secondary: oklch(0.8523 0.0667 6.86);
+  --color-secondary-content: oklch(41% 0.159 10.272);
+  --color-accent: oklch(0.8031 0.1519 120.76);
+  --color-accent-content: oklch(37% 0.077 168.94);
+  --color-neutral: oklch(14% 0.005 285.823);
+  --color-neutral-content: oklch(92% 0.004 286.32);
+  --color-info: oklch(0.4608 0.1683 303.25);
+  --color-info-content: oklch(89% 0.057 293.283);
+  --color-success: oklch(0.6982 0.1639 143.47);
+  --color-success-content: oklch(26% 0.065 152.934);
+  --color-warning: oklch(0.7262 0.1584 54.06);
+  --color-warning-content: oklch(26% 0.079 36.259);
+  --color-error: oklch(0.6151 0.21 22.94);
+  --color-error-content: oklch(25% 0.092 26.042);
+  --radius-selector: 0.25rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0rem;
+  --size-selector: 0.21875rem;
+  --size-field: 0.28125rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+
+  /* Complementary */
+  --font-sans: ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Vazirmatn,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
+  --spacing: .25rem;
+  --default-font-family: var(--font-sans);
+
+  /* Theme */
+  --theme-base: var(--color-base-200);
+  --theme-base-100: var(--color-base-100);
+  --theme-base-200: var(--color-base-200);
+  --theme-base-300: var(--color-base-300);
+  --theme-base-content: var(--color-base-content);
+  --theme-primary: var(--color-primary);
+  --theme-primary-content: var(--color-primary-content);
+  --theme-secondary: var(--color-secondary);
+  --theme-secondary-content: var(--color-secondary-content);
+  --theme-accent: var(--color-accent);
+  --theme-accent-content: var(--color-accent-content);
+  --theme-neutral: var(--color-neutral);
+  --theme-neutral-content: var(--color-neutral-content);
+  --theme-info: var(--color-info);
+  --theme-info-content: var(--color-info-content);
+  --theme-success: var(--color-success);
+  --theme-success-content: var(--color-success-content);
+  --theme-warning: var(--color-warning);
+  --theme-warning-content: var(--color-warning-content);
+  --theme-error: var(--color-error);
+  --theme-error-content: var(--color-error-content);
+}

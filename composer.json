@@ -1,0 +1,28 @@
+{
+    "name": "quendistudio/skin",
+    "version": "1.0.0",
+    "type": "winter-plugin",
+    "description": "Enhanced Winter CMS backend skin with dropdown menus, breadcrumbs, and form navigation",
+    "homepage": "https://github.com/quendistudio/skin",
+    "support": {
+        "issues": "https://github.com/quendistudio/skin/issues",
+        "source": "https://github.com/quendistudio/skin"
+    },
+    "keywords": ["wintercms", "quendistudio", "skin", "backend", "admin", "ui"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Quendi Lamaud",
+            "email": "github@quendistudio.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "composer/installers": "~1.11"
+    },
+    "autoload": {
+        "psr-4": {
+            "Quendistudio\\Skin\\": ""
+        }
+    }
+}

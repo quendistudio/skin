@@ -1,0 +1,6 @@
+1.0.0:
+    - Initial public release
+    - Enhanced and Modern backend skins
+    - Breadcrumb navigation, prev/next form buttons, breadcrumb_buttons partial hook
+    - English default locale with French translations
+    - Backend settings (skin/theme), permissions, RichEditor editorOptions extension

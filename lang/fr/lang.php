@@ -9,10 +9,6 @@ return [
         'deleted_at' => 'Supprimé le :datetime',
         'dark_theme' => 'Thème sombre',
     ],
-    'navigation' => [
-        'previous' => 'Précédent',
-        'next' => 'Suivant',
-    ],
     'fields' => [
         'skin' => [
             'label' => 'Skin',
@@ -26,11 +22,18 @@ return [
             'cupcake' => 'Cupcake',
         ],
     ],
-    'settings' => [
-        'name' => 'Skin',
-        'description' => 'Gérer les paramètres du Skin',
+    'list' => [
+        'manage_items' => 'Gérer les :items',
+    ],
+    'navigation' => [
+        'previous' => 'Précédent',
+        'next' => 'Suivant',
     ],
     'permissions' => [
         'administrate' => 'Administration',
+    ],
+    'settings' => [
+        'name' => 'Skin',
+        'description' => 'Gérer les paramètres du Skin',
     ],
 ];

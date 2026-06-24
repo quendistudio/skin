@@ -9,10 +9,6 @@ return [
         'deleted_at' => 'Deleted at :datetime',
         'dark_theme' => 'Dark theme',
     ],
-    'navigation' => [
-        'previous' => 'Previous',
-        'next' => 'Next',
-    ],
     'fields' => [
         'skin' => [
             'label' => 'Skin',
@@ -26,11 +22,18 @@ return [
             'cupcake' => 'Cupcake',
         ],
     ],
-    'settings' => [
-        'name' => 'Skin',
-        'description' => 'Manage Skin settings',
+    'list' => [
+        'manage_items' => 'Manage :items',
+    ],
+    'navigation' => [
+        'previous' => 'Previous',
+        'next' => 'Next',
     ],
     'permissions' => [
         'administrate' => 'Administration',
+    ],
+    'settings' => [
+        'name' => 'Skin',
+        'description' => 'Manage Skin settings',
     ],
 ];

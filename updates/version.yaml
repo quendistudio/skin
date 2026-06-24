@@ -4,3 +4,5 @@
     - Breadcrumb navigation, prev/next form buttons, breadcrumb_buttons partial hook
     - English default locale with French translations
     - Backend settings (skin/theme), permissions, RichEditor editorOptions extension
+1.0.1:
+    - Updated translations

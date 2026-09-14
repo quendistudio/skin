@@ -1,6 +1,6 @@
 {
     "name": "quendistudio/skin",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "type": "winter-plugin",
     "description": "Enhanced Winter CMS backend skin with dropdown menus, breadcrumbs, and form navigation",
     "homepage": "https://github.com/quendistudio/skin",
@@ -18,7 +18,8 @@
     ],
     "require": {
         "php": ">=8.1",
-        "composer/installers": "~1.11"
+        "composer/installers": "~1.11",
+        "winter/wn-backend-module": "^1.2.14"
     },
     "autoload": {
         "psr-4": {

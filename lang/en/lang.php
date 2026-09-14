@@ -26,8 +26,9 @@ return [
         'manage_items' => 'Manage :items',
     ],
     'navigation' => [
-        'previous' => 'Previous',
-        'next' => 'Next',
+        'aria' => 'Record navigation',
+        'previous' => 'Previous record',
+        'next' => 'Next record',
     ],
     'permissions' => [
         'administrate' => 'Administration',

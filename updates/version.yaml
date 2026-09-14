@@ -6,3 +6,8 @@
     - Backend settings (skin/theme), permissions, RichEditor editorOptions extension
 1.0.1:
     - Updated translations
+1.1.0:
+    - Replace custom breadcrumb prev/next with native FormController record navigation (soft-deleted records, lighter sibling query)
+    - Move FieldSet wn-icon-* / oc-icon-* onto the legend instead of above the panel
+    - Require winter/wn-backend-module ^1.2.14
+    - Update EN/FR record navigation labels

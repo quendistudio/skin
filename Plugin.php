@@ -7,6 +7,7 @@ use Config;
 use Event;
 
 use Backend\FormWidgets\RichEditor;
+use Backend\FormWidgets\FieldSet;
 use System\Classes\PluginManager;
 use System\Classes\PluginBase;
 use Quendistudio\Skin\Models\Settings;
@@ -32,6 +33,12 @@ class Plugin extends PluginBase
             // Extend RichEditor widget to support editorOptions
             RichEditor::extend(function ($widget) {
                 $widget->extendClassWith(RichEditorExtension::class);
+            });
+
+            // Move wn-icon-* / oc-icon-* from the form-group onto the <legend>
+            FieldSet::extend(function ($widget) {
+                $widget->addViewPath(plugins_path('quendistudio/skin/skins/enhanced/formwidgets/fieldset/partials'));
+                $widget->addCss('$/quendistudio/skin/skins/enhanced/assets/css/fieldset-icons.css');
             });
 
             $this->applyBackendSkin();
@@ -64,17 +71,14 @@ class Plugin extends PluginBase
             $controller->addJs($assets['js']);
             $controller->addCss($assets['css']);
             /**
-             * Dynamically adds a helper method to render the breadcrumb navigation buttons.
-             *
-             * This method encapsulates all guards and rendering logic. It always returns
-             * a string, which is either the rendered HTML for the buttons or an empty
-             * string when the buttons should not be displayed.
-             *
-             * The actual HTML is delegated to the skin layout partial
-             * "_breadcrumb_navigation_buttons.php" so no markup is kept here.
+             * Shadows the native FormController::formRenderRecordNavigation()
+             * (dynamic methods take precedence over behavior methods) with the
+             * skin-optimized version: soft-deleted records are navigable and the
+             * sibling query is lightweight. Rendering reuses the native
+             * "record_navigation" partial, so markup and hotkeys stay identical.
              */
-            $controller->addDynamicMethod('getBreadcrumbNavigationButtons', function () use ($controller) {
-                return \Quendistudio\Skin\Classes\BreadcrumbNavigator::makeBreadcrumbNavigationButtons($controller);
+            $controller->addDynamicMethod('formRenderRecordNavigation', function () use ($controller) {
+                return \Quendistudio\Skin\Classes\BreadcrumbNavigator::renderRecordNavigation($controller);
             });
         });
     }

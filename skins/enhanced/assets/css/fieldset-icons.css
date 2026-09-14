@@ -1,0 +1,20 @@
+/*
+ * FieldSet + wn-icon-*: hide the form-group :before (icon floating above the
+ * panel) and show the same glyph on the <legend> instead.
+ */
+.form-group[class*="wn-icon-"]:has(> .fieldset)::before,
+.form-group[class*="oc-icon-"]:has(> .fieldset)::before,
+.form-group[class^="icon-"]:has(> .fieldset)::before,
+.form-group[class*=" icon-"]:has(> .fieldset)::before {
+    display: none;
+}
+
+.fieldset > legend[class*="wn-icon-"]::before,
+.fieldset > legend[class*="oc-icon-"]::before,
+.fieldset > legend[class^="icon-"]::before,
+.fieldset > legend[class*=" icon-"]::before {
+    margin-right: 0.4em;
+    color: rgba(0, 0, 0, 0.55);
+    font-size: 0.9em;
+    vertical-align: baseline;
+}

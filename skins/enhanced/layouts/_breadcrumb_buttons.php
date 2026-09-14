@@ -1,1 +1,1 @@
-<?= $this->makePartial('breadcrumb_buttons', [], false) ?: $this->getBreadcrumbNavigationButtons() ?>
+<?= $this->makePartial('breadcrumb_buttons', [], false) ?>

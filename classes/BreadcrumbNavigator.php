@@ -7,39 +7,67 @@ use Exception;
 use Backend\Classes\Controller;
 use Backend\Behaviors\ListController;
 use Backend\Behaviors\FormController;
-use Backend;
 
+/**
+ * Skin override of the native FormController record navigation (Winter 1.2.14).
+ *
+ * Produces the same descriptor as FormController::formGetRecordNavigation() and
+ * renders the native "record_navigation" partial, with two improvements over
+ * the core implementation:
+ *
+ * - soft-deleted records are navigable (siblings restricted with onlyTrashed);
+ * - the sibling query is optimized: eager loads dropped, SELECT reduced to the
+ *   primary key and sort column (keeping computed sort columns and
+ *   relation-count subqueries intact), read with a single cursor pass that
+ *   exits early right after the next neighbour, plus a separate COUNT for the
+ *   total.
+ */
 class BreadcrumbNavigator
 {
     /**
-     * Computes previous and next record identifiers for the current model,
-     * respecting the current list sorting and active filters.
-     *
-     * The method is intentionally decoupled from the backend controller. It only
-     * relies on the prepared list widget (with its query and sorting already applied)
-     * and the current model instance.
-     *
-     * @param Controller $controller Controller instance
-     *
-     * @return string|void The rendered HTML for the navigation buttons, or void if not applicable
+     * Renders the native record navigation partial from the optimized
+     * descriptor. Returns an empty string when navigation is not applicable,
+     * matching the native formRenderRecordNavigation() contract.
      */
-    public static function makeBreadcrumbNavigationButtons($controller)
+    public static function renderRecordNavigation(Controller $controller): string
     {
-        if (!$controller->isClassExtendedWith(ListController::class)) {
-            return;
+        $navigation = self::makeRecordNavigation($controller);
+        if ($navigation === null || $navigation['current'] === null) {
+            return '';
         }
 
-        if (!$controller->isClassExtendedWith(FormController::class)) {
-            return;
+        return $controller->formMakePartial('record_navigation', [
+            'navigation' => $navigation,
+            'navigationContext' => $controller->formGetContext(),
+        ]);
+    }
+
+    /**
+     * Builds the same descriptor as FormController::formGetRecordNavigation(),
+     * respecting the current list sorting and active filters.
+     *
+     * @return array{previous: mixed, next: mixed, current: int|null, total: int}|null
+     */
+    public static function makeRecordNavigation(Controller $controller): ?array
+    {
+        if (!$controller->isClassExtendedWith(FormController::class)
+            || !$controller->isClassExtendedWith(ListController::class)
+        ) {
+            return null;
+        }
+
+        if (!$controller->asExtension('FormController')->getConfig('recordNavigation', true)) {
+            return null;
         }
 
         $action = $controller->formGetContext();
         if (!in_array($action, ['update', 'preview'], true)) {
-            return;
+            return null;
         }
 
-        if (!$model = $controller->formGetModel()) {
-            return;
+        $model = $controller->formGetModel();
+        if (!$model || !$model->exists) {
+            return null;
         }
 
         if (!$controller->listWidgets || !count($controller->listWidgets)) {
@@ -47,7 +75,7 @@ class BreadcrumbNavigator
         }
 
         if (!$listWidget = $controller->listGetWidget()) {
-            return;
+            return null;
         }
 
         $primaryKey = $model->getKeyName();
@@ -56,32 +84,31 @@ class BreadcrumbNavigator
         $columnDefinition = $listWidget->getColumn($sortColumn);
         $useRelationCount = $columnDefinition->config['useRelationCount'] ?? false;
 
-        $listQueryFull = $listWidget->prepareQuery();
+        $listQuery = $listWidget->prepareQuery();
 
-        if($model->deleted_at) {
-            $listQueryFull = $listQueryFull->onlyTrashed();
-        }
-        
-        $optimizedQuery = self::buildOptimizedQuery($listQueryFull, $sortColumn, $primaryKey, $model, $useRelationCount);
-
-        $previousId = self::resolveNeighbor('previous', $model, $primaryKey, $optimizedQuery);
-        $nextId = self::resolveNeighbor('next', $model, $primaryKey, $optimizedQuery);
-
-        if (!$previousId && !$nextId) {
-            return;
+        // Navigate among trashed siblings when viewing a soft-deleted record
+        if ($model->deleted_at ?? null) {
+            $listQuery = $listQuery->onlyTrashed();
         }
 
-        if (!$parentUrl = $controller->formGetRedirectUrl($action, $model)) {
-            return;
+        $query = self::buildOptimizedQuery($listQuery, $sortColumn, $primaryKey, $model, $useRelationCount);
+
+        [$previous, $next, $position] = self::resolveNeighbors($query, $primaryKey, $model->getKey());
+
+        if ($position === null) {
+            return ['previous' => null, 'next' => null, 'current' => null, 'total' => 0];
         }
 
-        return $controller->makeLayoutPartial('breadcrumb_navigation_buttons', [
-            'prevHref'     => $previousId ? Backend::url($parentUrl . '/' . $action . '/' . $previousId) : '',
-            'nextHref'  => $nextId ? Backend::url($parentUrl . '/' . $action . '/' . $nextId) : '',
-        ]);
+        return [
+            'previous' => $previous,
+            'next' => $next,
+            'current' => $position,
+            'total' => (clone $query)->toBase()->getCountForPagination(),
+        ];
     }
 
-    protected static function buildOptimizedQuery($listQueryFull, $sortColumn, $primaryKey, $model, $useRelationCount) {
+    protected static function buildOptimizedQuery($listQueryFull, $sortColumn, $primaryKey, $model, $useRelationCount)
+    {
         $optimizedQuery = clone $listQueryFull;
         $query = $optimizedQuery->getQuery();
 
@@ -139,39 +166,41 @@ class BreadcrumbNavigator
         return $optimizedQuery;
     }
 
-    protected static function resolveNeighbor(string $direction, $model, $primaryKey, $optimizedQuery) {
-        $isPrev = $direction === 'previous';
-        $currentKey = $model->getKey();
-        $previousKey = null;
-        $foundCurrent = false;
+    /**
+     * Single cursor pass over the ordered siblings: records preceding the
+     * current one only update the previous candidate, and iteration stops
+     * right after capturing the next neighbour.
+     *
+     * @return array{0: mixed, 1: mixed, 2: int|null} [previous, next, 1-based position]
+     */
+    protected static function resolveNeighbors($query, string $primaryKey, $currentKey): array
+    {
+        $previous = null;
+        $next = null;
+        $position = null;
+        $index = 0;
 
-        foreach ($optimizedQuery->cursor() as $record) {
+        foreach ($query->cursor() as $record) {
             $recordKey = $record->{$primaryKey} ?? null;
 
             if ($recordKey === null) {
                 continue;
             }
 
-            if ($recordKey == $currentKey) {
-                $foundCurrent = true;
+            $index++;
 
-                if ($isPrev) {
-                    return $previousKey ?? 0;
-                }
-
-                continue;
+            if ($position !== null) {
+                $next = $recordKey;
+                break;
             }
 
-            if ($foundCurrent && !$isPrev) {
-                return (int) $recordKey;
-            }
-
-            if (!$foundCurrent && $isPrev) {
-                $previousKey = $recordKey;
+            if ((string) $recordKey === (string) $currentKey) {
+                $position = $index;
+            } else {
+                $previous = $recordKey;
             }
         }
 
-        return 0;
+        return [$previous, $next, $position];
     }
 }
-

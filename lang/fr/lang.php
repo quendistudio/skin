@@ -26,8 +26,9 @@ return [
         'manage_items' => 'Gérer les :items',
     ],
     'navigation' => [
-        'previous' => 'Précédent',
-        'next' => 'Suivant',
+        'aria' => 'Navigation dans les enregistrements',
+        'previous' => 'Enregistrement précédent',
+        'next' => 'Enregistrement suivant',
     ],
     'permissions' => [
         'administrate' => 'Administration',

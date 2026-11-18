@@ -17,3 +17,6 @@
 
 1.1.2:
     - Fix dark mode surface hover and border tokens
+
+1.1.3:
+    - Update dark mode main menu and sidenav active highlight alignment

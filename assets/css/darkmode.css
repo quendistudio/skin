@@ -44,9 +44,21 @@ body.dark nav#layout-mainmenu {
     background-color: var(--drk-bg-color-b);
 }
 
-body.dark nav#layout-mainmenu.navbar ul li.active {
+body.dark nav#layout-mainmenu.navbar ul.mainmenu-nav > li.active {
     border-top: solid 3px #3498db;
-    margin-top: 2px;
+    margin-top: 0;
+}
+
+body.dark nav#layout-mainmenu.navbar ul.mainmenu-nav > li.active > a {
+    padding-top: 11px;
+}
+
+body.dark nav#layout-mainmenu.navbar ul.mainmenu-nav > li.active > span.counter {
+    top: calc(.95em - 3px);
+}
+
+body.dark #layout-sidenav li.active a {
+    padding-left: calc(0.714em - 4px);
 }
 
 body.dark nav#layout-mainmenu ul li .mainmenu-accountmenu {

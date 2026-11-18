@@ -8,9 +8,14 @@
     --drk-color-danger: #f85149;
     --drk-border-color: #30363d;
     --drk-box-shadow: 0 8px 24px #010409;
+    --drk-surface-hover: #1a2938;
+    --drk-border: #34495e;
 }
 
 body.dark {
+    --wn-surface-hover: var(--drk-surface-hover);
+    --wn-border: var(--drk-border);
+
     color: var(--drk-color);
     background: var(--drk-bg-color-a);
 }
@@ -143,6 +148,10 @@ body.dark .close {
 body.dark .close:hover,
 body.dark .close:focus {
     color: #fff;
+}
+
+body.dark table.table.data tfoot .table-totals td {
+    border-top: 2px solid var(--drk-border);
 }
 
 body.dark .table-striped.widget-calcs {
@@ -908,13 +917,6 @@ body.dark .control-table .control-scrollbar table.data tr:last-child td {
     border-bottom-color: var(--drk-border-color);
 }
 
-body.dark .control-filter {
-    color: #fff;
-    background-color: #1a2938;
-    border-top: 1px solid #34495e;
-    border-bottom: 1px solid #34495e;
-}
-
 body.dark table.table.data {
     border-bottom-color: var(--drk-border-color);
 }
@@ -1017,8 +1019,8 @@ body.dark .control-filter-popover .filter-active-items a:hover {
 
 body.dark table.table.data thead td,
 body.dark table.table.data thead th {
-    border-top: 1px solid #34495e !important;
-    border-bottom: 1px solid #34495e !important;
+    border-top: 1px solid var(--drk-border) !important;
+    border-bottom: 1px solid var(--drk-border) !important;
     border-color: #0180ff;
 }
 
@@ -1046,7 +1048,7 @@ body.dark table.table.data thead th.sort-asc.active {
 }
 
 body.dark table.table.data thead th.sort-desc.active {
-    background: #34495e;
+    background: var(--drk-border);
 }
 
 body.dark table.table.data tbody tr.active:nth-child(even) td,

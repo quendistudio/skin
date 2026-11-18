@@ -14,3 +14,6 @@
 
 1.1.1:
     - Enhance FieldSet icons and refine legend icon color/spacing
+
+1.1.2:
+    - Fix dark mode surface hover and border tokens

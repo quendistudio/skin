@@ -11,3 +11,6 @@
     - Move FieldSet wn-icon-* / oc-icon-* onto the legend instead of above the panel
     - Require winter/wn-backend-module ^1.2.14
     - Update EN/FR record navigation labels
+
+1.1.1:
+    - Enhance FieldSet icons and refine legend icon color/spacing

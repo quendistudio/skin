@@ -9,18 +9,18 @@
     $chevronUp = '<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M4 10l4-4 4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     $chevronDown = '<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 ?>
-<div class="form-record-nav" role="navigation" aria-label="<?= e(trans('backend::lang.form.record_navigation')) ?>">
+<div class="form-record-nav" role="navigation" aria-label="<?= e(trans('quendistudio.skin::lang.navigation.aria')) ?>">
     <span class="form-record-nav-position">
         <?= e($navigation['current']) ?>&nbsp;/&nbsp;<?= e($navigation['total']) ?>
     </span>
     <span class="form-record-nav-group">
         <?php if ($previousUrl): ?>
-            <a href="<?= e($previousUrl) ?>" class="form-record-nav-btn" title="<?= e(trans('backend::lang.form.previous_record')) ?>" data-hotkey="ctrl+up, cmd+up"><?= $chevronUp ?></a>
+            <a href="<?= e($previousUrl) ?>" class="form-record-nav-btn" title="<?= e(trans('quendistudio.skin::lang.navigation.previous')) ?>" data-hotkey="ctrl+up, cmd+up"><?= $chevronUp ?></a>
         <?php else: ?>
             <span class="form-record-nav-btn is-disabled" aria-disabled="true"><?= $chevronUp ?></span>
         <?php endif ?>
         <?php if ($nextUrl): ?>
-            <a href="<?= e($nextUrl) ?>" class="form-record-nav-btn" title="<?= e(trans('backend::lang.form.next_record')) ?>" data-hotkey="ctrl+down, cmd+down"><?= $chevronDown ?></a>
+            <a href="<?= e($nextUrl) ?>" class="form-record-nav-btn" title="<?= e(trans('quendistudio.skin::lang.navigation.next')) ?>" data-hotkey="ctrl+down, cmd+down"><?= $chevronDown ?></a>
         <?php else: ?>
             <span class="form-record-nav-btn is-disabled" aria-disabled="true"><?= $chevronDown ?></span>
         <?php endif ?>

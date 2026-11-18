@@ -14,7 +14,11 @@
 .fieldset > legend[class^="icon-"]::before,
 .fieldset > legend[class*=" icon-"]::before {
     margin-right: 0.4em;
-    color: rgba(0, 0, 0, 0.55);
+    color: #333;
     font-size: 0.9em;
     vertical-align: baseline;
+}
+
+.fieldset {
+    margin-top: 0;
 }

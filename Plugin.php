@@ -36,10 +36,14 @@ class Plugin extends PluginBase
             });
 
             // Move wn-icon-* / oc-icon-* from the form-group onto the <legend>
-            FieldSet::extend(function ($widget) {
+            $enhanceFieldSet = function ($widget) {
                 $widget->addViewPath(plugins_path('quendistudio/skin/skins/enhanced/formwidgets/fieldset/partials'));
                 $widget->addCss('$/quendistudio/skin/skins/enhanced/assets/css/fieldset-icons.css');
-            });
+            };
+            FieldSet::extend($enhanceFieldSet);
+            if (class_exists(\Quendistudio\Dispose\FormWidgets\FieldSet::class)) {
+                \Quendistudio\Dispose\FormWidgets\FieldSet::extend($enhanceFieldSet);
+            }
 
             $this->applyBackendSkin();
 

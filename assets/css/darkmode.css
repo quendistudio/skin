@@ -10,11 +10,13 @@
     --drk-box-shadow: 0 8px 24px #010409;
     --drk-surface-hover: #1a2938;
     --drk-border: #34495e;
+    --drk-text-faint: #314457;
 }
 
 body.dark {
     --wn-surface-hover: var(--drk-surface-hover);
     --wn-border: var(--drk-border);
+    --wn-text-faint: var(--drk-text-faint);
 
     color: var(--drk-color);
     background: var(--drk-bg-color-a);
@@ -966,7 +968,7 @@ body.dark table.table.data tbody tr:nth-child(even) th {
 
 body.dark table.table.data thead td>a,
 body.dark table.table.data thead th>a,
-body.dark table.table.data thead td>span,
+body.dark table.table.data thead tr:not(.table-totals) td>span,
 body.dark table.table.data thead th>span {
     color: #deb887;
 }
@@ -985,6 +987,14 @@ body.dark table.table.data thead th>span:hover {
 body.dark .control-filter a,
 body.dark .control-filter .custom-checkbox label {
     color: #c3c3c3;
+}
+
+body.dark .control-filter > .filter-scope.button-group button {
+    color: rgba(255,255,255,.6);
+}
+
+body.dark .control-filter > .filter-scope.button-group button.btn-primary {
+    color: var(--wn-text-inverse, #fff);
 }
 
 body.dark .control-filter>.filter-scope:hover,
